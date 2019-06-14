@@ -23,6 +23,7 @@ class Result(object):
             self.next_url, self.rows)
 
     def __init__(self, html: str):
+        self.next_url = ''
         self.rows = []
         self.tree = html
 
@@ -31,7 +32,7 @@ class Result(object):
 
     def next(self):
         if self.has_next():
-            url = 'https:'+self.next_url.attrib['href']
+            url = 'https:'+self.next_url
             response = requests.get(url)
             return Result(html=response.content.decode('utf-8'))
         raise ValueError("It's already the last.")
@@ -47,7 +48,7 @@ class Result(object):
         dates = self.tree.xpath(xpath_formats['dates'])
         atags = self.tree.xpath(xpath_formats['atags'])
         for next_atag in next_atags:
-            self.next_url = next_atag
+            self.next_url = next_atag.attrib['href']
         for atag, date in zip(atags, dates):
             self.rows.append(Row(date=date, title=atag.text_content(), link=atag.attrib['href']))
 
