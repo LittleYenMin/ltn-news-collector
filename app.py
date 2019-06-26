@@ -35,15 +35,20 @@ def run(topic: str, on_mission_completed, on_page_completed):
         count+=1
         on_page_completed(topic, count)
         time.sleep(1)
-    on_mission_completed()
+    on_mission_completed(topic)
+
+
+def runs(topics: [str], on_mission_completed, on_page_completed):
+    for topic in topics:
+        run(topic, on_mission_completed, on_page_completed)
 
 
 def on_page_completed(topic: str, page: int):
     print('主題: {} 第 {} 頁資料爬取完成 ...'.format(topic, page))
 
 
-def on_mission_completed():
-    print('任務完成')
+def on_mission_completed(topic: str):
+    print('主題: {} 任務完成'.format(topic))
 
 
-run(topic='海嘯', on_mission_completed=on_mission_completed, on_page_completed=on_page_completed)
+runs(topics=['颱風', '颶風'], on_mission_completed=on_mission_completed, on_page_completed=on_page_completed)
