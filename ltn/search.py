@@ -1,7 +1,7 @@
 import requests
 import lxml.html
 
-xpath_formats = {'next_url': "//a[contains(@class, 'p_next')]", 'dates': "//ul[@id='newslistul']/li/span/text()", 'atags': "//ul[@id='newslistul']//a[contains(@class, 'tit')]"}
+xpath_formats = {'next_url': "//a[contains(@class, 'p_next')]", 'dates': "//ul[@class='searchlist']/li/span/text()", 'atags': "//a[contains(@class, 'tit')]"}
 
 
 class Row(object):
@@ -54,6 +54,6 @@ class Result(object):
 
 
 def by_keyword(keyword: str) -> Result:
-    url = 'https://news.ltn.com.tw/search?keyword={}'.format(keyword)
+    url = 'https://news.ltn.com.tw/topic/{}'.format(keyword)
     response = requests.get(url)
     return Result(html=response.content.decode('utf-8'))
